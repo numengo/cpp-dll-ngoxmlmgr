@@ -10,8 +10,9 @@ solution "NgoXmlMgr"
     configuration {}
         -- common defines (adapt if necessary) --
        defines {
-                "XMLMGR_USE_DYNAMIC"
+                "NGO_ERR_USE_DYN"
 			   ,"NGO_COM_USE_DYN"
+               ,"XMLMGR_USE_DYNAMIC"
                }                
        -- for shared libs, export statement
        local _exportSymbol = "XMLMGR_MAKING_DLL"
@@ -20,8 +21,9 @@ solution "NgoXmlMgr"
        -- common libs  --
        links { 
                 "NgoLibxml2"
+               ,"NgoErr"
                ,"NgoCommon"
-          }
+               }
     -- COMMON CONFIGURATION MODIFICATION - END --
 
 project "NgoXmlMgr"

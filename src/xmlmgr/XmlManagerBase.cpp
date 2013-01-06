@@ -21,7 +21,7 @@
 */
 
 #include <xmlmgr/XmlManagerBase.h>
-#include <xmlmgr/XmlManagerException.h>
+#include "ngoerr/NgoError.h"
 
 #include <libxml/xmlreader.h>
 #include <libxml/xpath.h>
@@ -92,7 +92,7 @@ xmlNode* XmlManagerBase::AssertPath( std::string& path,
                                      xmlNode* pathNode, bool create_unexisting )
 {
     if ( pathNode == NULL )
-        XmlMgrThrow( "Error, you are trying to write xml elements in an inexistant xml node" );
+        throw NgoErrorInvalidArgument(2,"Error, you are trying to write xml elements in an inexistant xml node","XmlManagerBase::AssertPath");
 
     if ( path.empty() || path == "/" )
         return pathNode;
@@ -202,7 +202,7 @@ void XmlManagerBase::Delete(xmlDoc* doc)
 xmlNode* XmlManagerBase::GetUniqElement(xmlNode* p, const std::string& q, bool create_unexisting)
 {
     if ( p == NULL )
-        XmlMgrThrow( "Error in GetUniqElement : trying to get a child from an unexisting node !!" );
+        throw NgoErrorInvalidArgument(1,"trying to get a child from an unexisting node","XmlManagerBase::GetUniqElement");
 
     if ( q.empty() || q == "/" )
         return p;
@@ -228,7 +228,7 @@ xmlNode* XmlManagerBase::GetUniqElement(xmlNode* p, const std::string& q, bool c
 void XmlManagerBase::SetNodeText(xmlNode* n, const char  *t)
 {
     if ( n == NULL )
-        XmlMgrThrow( "Error in SetNodeText : trying to set the content of an unexisting node !!" );
+        throw NgoErrorInvalidArgument(1,"trying to set the content of an unexisting node","XmlManagerBase::SetNodeText");
 
     xmlNodeSetContent( n , (const xmlChar*) t );
 }
@@ -248,7 +248,7 @@ void XmlManagerBase::Write(const std::string& name, xmlNode* pathNode,  const st
     }
 
     if ( pathNode == NULL )
-        XmlMgrThrow( "Error, you are trying to write to an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to write to an undefined rootNode","XmlManagerBase::Write");
 
     std::string key(name);
     xmlNode* e = AssertPath(key, pathNode);
@@ -271,7 +271,7 @@ bool XmlManagerBase::Read(const std::string& name, std::string* str, xmlNode* ro
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to read from an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to read to an undefined rootNode","XmlManagerBase::Read");
 
     xmlNode* e = AssertPath( key, rootNode, false );
     if ( e == NULL )
@@ -296,7 +296,7 @@ void XmlManagerBase::Write(const std::string& name, xmlNode* rootNode,  int valu
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to write to an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to write to an undefined rootNode","XmlManagerBase::Write");
 
     xmlNode* node = AssertPath(key,rootNode);
     xmlNode* e = GetUniqElement( node , key );
@@ -325,7 +325,7 @@ bool XmlManagerBase::Read(const std::string& name, xmlNode* rootNode ,  int* val
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to read from an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to read from an undefined rootNode","XmlManagerBase::Read");
 
     xmlNode* e = AssertPath( key, rootNode, false );
     if ( e == NULL )
@@ -363,7 +363,7 @@ void XmlManagerBase::Write(const std::string& name, xmlNode* rootNode,  bool val
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to write to an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to write to an undefined rootNode","XmlManagerBase::Write");
 
     xmlNode* node = AssertPath(key,rootNode);
     xmlNode* e = GetUniqElement( node , key );
@@ -392,7 +392,7 @@ bool XmlManagerBase::Read(const std::string& name, xmlNode* rootNode, bool* valu
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to read from an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to read from an undefined rootNode","XmlManagerBase::Read");
 
     xmlNode* e = AssertPath( key, rootNode, false );
     if ( e == NULL )
@@ -429,7 +429,7 @@ void XmlManagerBase::Write(const std::string& name,   xmlNode* rootNode, double 
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to write to an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to write to an undefined rootNode","XmlManagerBase::Write");
 
     xmlNode* node = AssertPath(key,rootNode);
     xmlNode* e = GetUniqElement( node , key );
@@ -460,7 +460,7 @@ bool XmlManagerBase::Read(const std::string& name,  xmlNode* rootNode, double* v
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to read from an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to read from an undefined rootNode","XmlManagerBase::Read");
 
     xmlNode* e = AssertPath( key, rootNode, false );
     if ( e == NULL )
@@ -496,7 +496,7 @@ void XmlManagerBase::Write(const std::string& name, xmlNode* rootNode,  const st
    std::string last = name.substr(found+1);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to write to an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to write to an undefined rootNode","XmlManagerBase::Write");
 
     xmlNode* node = AssertPath(key,rootNode);
     xmlNode* e = GetUniqElement( node , key );
@@ -520,7 +520,7 @@ void XmlManagerBase::Read(const std::string& name, xmlNode* rootNode, std::vecto
    std::string last = name.substr(found+1);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to read from an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to read from an undefined rootNode","XmlManagerBase::Read");
 
     xmlNode* e = AssertPath( key, rootNode, false );
     if ( e == NULL )
@@ -560,7 +560,7 @@ void XmlManagerBase::Write(const std::string& name, xmlNode* rootNode,  const st
    std::string last = name.substr(found+1);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to write to an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to write to an undefined rootNode","XmlManagerBase::Write");
 
     xmlNode* node = AssertPath(key,rootNode);
     xmlNode* e = GetUniqElement( node , key );
@@ -588,7 +588,7 @@ void XmlManagerBase::Read(const std::string& name, xmlNode* rootNode, std::vecto
    std::string last = name.substr(found+1);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to read from an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to read from an undefined rootNode","XmlManagerBase::Read");
 
     xmlNode* e = AssertPath( key, rootNode, false );
     if ( e == NULL )
@@ -637,7 +637,7 @@ void XmlManagerBase::Write(const std::string& name, xmlNode* rootNode,  const st
    std::string last = name.substr(found+1);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to write to an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to write to an undefined rootNode","XmlManagerBase::Write");
 
     xmlNode* node = AssertPath(key,rootNode);
     xmlNode* e = GetUniqElement( node , key );
@@ -665,7 +665,7 @@ void XmlManagerBase::Read(const std::string& name, xmlNode* rootNode, std::vecto
    std::string last = name.substr(found+1);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to read from an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to read from an undefined rootNode","XmlManagerBase::Read");
 
     xmlNode* e = AssertPath( key, rootNode, false );
     if ( e == NULL )
@@ -714,7 +714,7 @@ void XmlManagerBase::Write(const std::string& name, xmlNode* rootNode,  const st
    std::string last = name.substr(found+1);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to write to an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to write to an undefined rootNode","XmlManagerBase::Write");
 
     xmlNode* node = AssertPath(key,rootNode);
     xmlNode* e = GetUniqElement( node , key );
@@ -743,7 +743,7 @@ void XmlManagerBase::Read(const std::string& name, xmlNode* rootNode, std::vecto
    std::string last = name.substr(found+1);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to read from an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to read from an undefined rootNode","XmlManagerBase::Read");
 
     xmlNode* e = AssertPath( key, rootNode, false );
     if ( e == NULL )
@@ -790,7 +790,7 @@ std::vector<std::string> XmlManagerBase::EnumerateChildrens(const std::string& p
     std::string key(path);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to read from an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to enumerate children from an undefined rootNode","XmlManagerBase::EnumerateChildrens");
 
     xmlNode* e = AssertPath( key, rootNode, false );
     if ( e == NULL )
@@ -817,7 +817,7 @@ void XmlManagerBase::DeleteChildrens(const std::string& strPath, xmlNode* rootNo
     std::string key(strPath);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to delete an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to delete children from an undefined rootNode","XmlManagerBase::DeleteChildrens");
 
     xmlNode* e = AssertPath( key, rootNode, false );
     if ( e == NULL )
@@ -845,7 +845,7 @@ void XmlManagerBase::WriteAttribute(const std::string& name,  xmlNode* rootNode,
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to write to an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to write an attribute to an undefined rootNode","XmlManagerBase::WriteAttribute");
 
     xmlNode* node = AssertPath(key,rootNode);
     xmlNode* e = GetUniqElement( node , key );
@@ -869,7 +869,7 @@ bool XmlManagerBase::ReadAttribute(const std::string& name,  xmlNode* rootNode, 
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to read from an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to read an attribute from an undefined rootNode","XmlManagerBase::ReadAttribute");
 
     xmlNode* e = AssertPath( key, rootNode, false );
     if ( e == NULL )
@@ -904,7 +904,7 @@ void XmlManagerBase::WriteAttribute(const std::string& name,  xmlNode* rootNode,
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to write to an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to write an attribute to an undefined rootNode","XmlManagerBase::WriteAttribute");
 
     xmlNode* node = AssertPath(key,rootNode);
     xmlNode* e = GetUniqElement( node , key );
@@ -930,7 +930,7 @@ bool XmlManagerBase::ReadAttribute(const std::string& name,  xmlNode* rootNode, 
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to read from an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to read an attribute from an undefined rootNode","XmlManagerBase::ReadAttribute");
 
     xmlNode* e = AssertPath( key, rootNode, false );
     if ( e == NULL )
@@ -971,7 +971,7 @@ void XmlManagerBase::WriteAttribute(const std::string& name,  xmlNode* rootNode,
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to write to an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to write an attribute to an undefined rootNode","XmlManagerBase::WriteAttribute");
 
     xmlNode* node = AssertPath(key,rootNode);
     xmlNode* e = GetUniqElement( node , key );
@@ -997,7 +997,7 @@ bool XmlManagerBase::ReadAttribute(const std::string& name,  xmlNode* rootNode, 
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to read from an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to read an attribute from an undefined rootNode","XmlManagerBase::ReadAttribute");
 
     xmlNode* e = AssertPath( key, rootNode, false );
     if ( e == NULL )
@@ -1055,7 +1055,7 @@ void XmlManagerBase::WriteAttribute(const std::string& name,  xmlNode* rootNode,
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to write to an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to write an attribute to an undefined rootNode","XmlManagerBase::WriteAttribute");
 
     xmlNode* node = AssertPath(key,rootNode);
     xmlNode* e = GetUniqElement( node , key );
@@ -1081,7 +1081,7 @@ bool XmlManagerBase::ReadAttribute(const std::string& name,  xmlNode* rootNode, 
     std::string key(name);
 
     if ( rootNode == NULL )
-        XmlMgrThrow( "Error, you are trying to read from an undefined rootNode !" );
+        throw NgoErrorInvalidArgument(2,"trying to read an attribute from an undefined rootNode","XmlManagerBase::ReadAttribute");
 
     xmlNode* e = AssertPath( key, rootNode, false );
     if ( e == NULL )
