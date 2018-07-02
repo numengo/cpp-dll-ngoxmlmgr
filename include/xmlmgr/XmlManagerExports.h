@@ -13,10 +13,10 @@
 #ifndef _XmlManagerExports_h_
 #define _XmlManagerExports_h_
 
-#ifdef XMLMGR_USE_DYNAMIC
+#ifdef XMLMGR_USE_DYN
 #ifdef  _MSC_VER
 	#ifndef XMLMGR_IMPORT
-		#ifdef XMLMGR_MAKING_DLL
+		#ifdef XMLMGR_MAKE_DLL
 			#define XMLMGR_IMPORT __declspec( dllexport )
 		#else
 			#define XMLMGR_IMPORT __declspec( dllimport )
@@ -28,7 +28,7 @@
 	#pragma warning( disable: 4661 )
 #else
 	#ifndef XMLMGR_IMPORT
-		#ifdef XMLMGR_MAKING_DLL
+		#ifdef XMLMGR_MAKE_DLL
 			#define XMLMGR_IMPORT
 		#else
 			#define XMLMGR_IMPORT
